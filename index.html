@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KOTIYA ORIGINS — Wildlife Conservation Social Enterprise</title>
+  <meta name="description" content="KotIya Origins is a Sri Lankan social enterprise supporting wildlife conservation through eco-friendly products and profit-funded protection projects." />
+
+  <style>
+    :root{
+      --bg: #0b0f14;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --accent: #a6ffcb;
+      --accent2:#9ad6ff;
+      --danger:#ff7b7b;
+      --ok:#7dffa3;
+
+      --radius: 18px;
+      --radius2: 26px;
+      --max: 1120px;
+
+      --ease: cubic-bezier(.2,.8,.2,1);
+    }
+
+    [data-theme="light"]{
+      --bg: #f6f7f9;
+      --card: rgba(0,0,0,.04);
+      --card2: rgba(0,0,0,.06);
+      --text: rgba(0,0,0,.90);
+      --muted: rgba(0,0,0,.62);
+      --border: rgba(0,0,0,.10);
+      --shadow: 0 18px 60px rgba(0,0,0,.10);
+      --accent: #0a7b4f;
+      --accent2:#0a5b7b;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(166,255,203,.15), transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(154,214,255,.13), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit; text-decoration:none}
+    button{font:inherit}
+    img{max-width:100%; display:block}
+
+    /* Loading Screen */
+    .loader{
+      position:fixed; inset:0;
+      display:grid; place-items:center;
+      background: linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,.35)), var(--bg);
+      z-index: 9999;
+      transition: opacity .6s var(--ease), visibility .6s var(--ease);
+    }
+    [data-theme="light"] .loader{
+      background: linear-gradient(180deg, rgba(255,255,255,.8), rgba(255,255,255,.6)), var(--bg);
+    }
+    .loader.hidden{opacity:0; visibility:hidden}
+    .loader-card{
+      width:min(520px, 92vw);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius: var(--radius2);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    [data-theme="light"] .loader-card{background: rgba(0,0,0,.03)}
+    .loader-top{
+      display:flex; align-items:center; gap:14px;
+    }
+    .loader-logo{
+      width:56px; height:56px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      display:grid; place-items:center;
+      overflow:hidden;
+    }
+    .loader-logo img{width:100%; height:100%; object-fit:cover}
+    .loader-title{
+      display:flex; flex-direction:column; gap:4px;
+      min-width:0;
+    }
+    .loader-title strong{letter-spacing:.08em; font-size: 14px}
+    .loader-title span{color:var(--muted); font-size: 13px}
+    .progress{
+      margin-top:16px;
+      height: 12px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      overflow:hidden;
+    }
+    [data-theme="light"] .progress{background: rgba(0,0,0,.05)}
+    .bar{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width .25s var(--ease);
+    }
+    .loader-meta{
+      margin-top:10px;
+      display:flex; justify-content:space-between; gap:10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .shine{
+      position:absolute; inset:-40% -30%;
+      background: radial-gradient(closest-side, rgba(255,255,255,.22), transparent 62%);
+      transform: translateX(-35%) rotate(12deg);
+      animation: shine 1.6s var(--ease) infinite;
+      pointer-events:none;
+      opacity:.65;
+    }
+    [data-theme="light"] .shine{opacity:.35}
+    @keyframes shine{
+      0%{transform: translateX(-45%) rotate(12deg)}
+      100%{transform: translateX(45%) rotate(12deg)}
+    }
+
+    /* Layout */
+    .wrap{max-width: var(--max); margin: 0 auto; padding: 0 18px}
+    .nav{
+      position:sticky; top:0;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.25));
+      border-bottom: 1px solid var(--border);
+      z-index: 50;
+    }
+    [data-theme="light"] .nav{
+      background: linear-gradient(180deg, rgba(255,255,255,.80), rgba(255,255,255,.58));
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 12px 0;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width:0;
+    }
+    .brand-badge{
+      width:40px; height:40px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      overflow:hidden;
+      flex: 0 0 auto;
+    }
+    [data-theme="light"] .brand-badge{background: rgba(0,0,0,.05)}
+    .brand-badge img{width:100%; height:100%; object-fit:cover}
+    .brand-text{
+      display:flex; flex-direction:column; line-height:1.1;
+      min-width:0;
+    }
+    .brand-text .name{
+      font-weight: 800;
+      letter-spacing: .08em;
+      font-size: 13px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .brand-text .tag{
+      color: var(--muted);
+      font-size: 12px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+
+    .nav-links{
+      display:flex; align-items:center; gap: 10px;
+    }
+    .nav-links a{
+      padding: 10px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      transition: background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
+      border: 1px solid transparent;
+      font-size: 13px;
+    }
+    .nav-links a:hover{
+      background: var(--card);
+      color: var(--text);
+      border-color: var(--border);
+      transform: translateY(-1px);
+    }
+
+    .actions{display:flex; align-items:center; gap:10px}
+    .btn{
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      cursor:pointer;
+      transition: transform .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease);
+      display:inline-flex; gap:10px; align-items:center;
+      font-size: 13px;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); background: var(--card2)}
+    .btn.primary{
+      border-color: transparent;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: rgba(0,0,0,.88);
+      font-weight: 800;
+    }
+    [data-theme="light"] .btn.primary{color: rgba(255,255,255,.92)}
+    .btn.ghost{background: transparent}
+    .pill{
+      font-size: 12px; color: var(--muted);
+      border:1px solid var(--border);
+      padding: 8px 10px;
+      border-radius: 999px;
+      display:inline-flex; gap:8px; align-items:center;
+      background: rgba(255,255,255,.03);
+    }
+    [data-theme="light"] .pill{background: rgba(0,0,0,.03)}
+    .dot{
+      width:8px; height:8px; border-radius:99px;
+      background: var(--ok);
+      box-shadow: 0 0 0 5px rgba(125,255,163,.12);
+    }
+
+    /* Hero */
+    .hero{padding: 54px 0 28px; position:relative;}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){
+      .grid{grid-template-columns: 1fr; }
+      .nav-links{display:none}
+    }
+
+    .card{
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    [data-theme="light"] .card{
+      background: linear-gradient(180deg, rgba(0,0,0,.03), rgba(0,0,0,.02));
+    }
+
+    .hero-left{padding: 28px}
+    .kicker{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom: 14px;}
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(30px, 4.2vw, 54px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .sub{
+      margin:0 0 18px;
+      color: var(--muted);
+      font-size: clamp(14px, 1.25vw, 16px);
+      line-height: 1.6;
+      max-width: 60ch;
+    }
+    .hero-cta{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
+    .hero-right{padding: 18px; display:grid; grid-template-rows: auto 1fr; gap: 12px;}
+    .poster{
+      border-radius: var(--radius2);
+      border:1px solid var(--border);
+      background:
+        radial-gradient(800px 260px at 30% 0%, rgba(166,255,203,.14), transparent 60%),
+        radial-gradient(700px 220px at 80% 30%, rgba(154,214,255,.12), transparent 60%),
+        rgba(255,255,255,.03);
+      overflow:hidden;
+      position:relative;
+      min-height: 230px;
+    }
+    [data-theme="light"] .poster{
+      background:
+        radial-gradient(800px 260px at 30% 0%, rgba(10,123,79,.12), transparent 60%),
+        radial-gradient(700px 220px at 80% 30%, rgba(10,91,123,.10), transparent 60%),
+        rgba(0,0,0,.03);
+    }
+    .poster-inner{
+      position:absolute; inset:0;
+      display:grid; place-items:center;
+      padding: 18px;
+    }
+    .logo-big{
+      width:min(520px, 100%);
+      opacity:.98;
+      filter: drop-shadow(0 18px 35px rgba(0,0,0,.35));
+    }
+    [data-theme="light"] .logo-big{filter: drop-shadow(0 18px 35px rgba(0,0,0,.12));}
+    .mini-stats{display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px;}
+    @media (max-width: 520px){ .mini-stats{grid-template-columns: 1fr} }
+    .stat{
+      padding: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+    }
+    [data-theme="light"] .stat{background: rgba(0,0,0,.03)}
+    .stat strong{display:block; font-size: 18px; letter-spacing:-0.01em}
+    .stat span{display:block; color: var(--muted); font-size: 12px; margin-top:4px}
+
+    /* Sections */
+    section{padding: 26px 0}
+    .section-title{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:12px;
+      margin-bottom: 12px;
+    }
+    .section-title h2{margin:0; font-size: 22px; letter-spacing: -0.01em;}
+    .section-title p{margin:0; color: var(--muted); font-size: 13px; max-width: 60ch;}
+
+    .cols{display:grid; grid-template-columns: 1fr 1fr; gap: 14px;}
+    @media (max-width: 900px){ .cols{grid-template-columns: 1fr} }
+
+    .feature{
+      padding: 18px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      position:relative;
+      overflow:hidden;
+    }
+    [data-theme="light"] .feature{background: rgba(0,0,0,.03)}
+    .feature h3{margin:0 0 6px; font-size: 16px}
+    .feature p{margin:0; color: var(--muted); line-height: 1.6; font-size: 13px}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    [data-theme="light"] .badge{background: rgba(0,0,0,.03)}
+    .badge .b{
+      width:26px; height:26px; border-radius: 10px;
+      border:1px solid var(--border);
+      display:grid; place-items:center;
+      color: var(--text);
+      background: rgba(255,255,255,.04);
+    }
+    [data-theme="light"] .badge .b{background: rgba(0,0,0,.04)}
+
+    /* Product grid */
+    .products{display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px;}
+    @media (max-width: 980px){ .products{grid-template-columns: 1fr 1fr} }
+    @media (max-width: 560px){ .products{grid-template-columns: 1fr} }
+
+    .product{
+      border:1px solid var(--border);
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+      transition: transform .25s var(--ease), background .25s var(--ease);
+      cursor:pointer;
+    }
+    [data-theme="light"] .product{background: rgba(0,0,0,.03)}
+    .product:hover{transform: translateY(-2px); background: rgba(255,255,255,.05)}
+    [data-theme="light"] .product:hover{background: rgba(0,0,0,.05)}
+    .thumb{
+      height: 140px;
+      background:
+        radial-gradient(220px 160px at 25% 0%, rgba(166,255,203,.18), transparent 60%),
+        radial-gradient(240px 160px at 85% 40%, rgba(154,214,255,.14), transparent 60%),
+        rgba(255,255,255,.03);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="light"] .thumb{
+      background:
+        radial-gradient(220px 160px at 25% 0%, rgba(10,123,79,.12), transparent 60%),
+        radial-gradient(240px 160px at 85% 40%, rgba(10,91,123,.10), transparent 60%),
+        rgba(0,0,0,.03);
+    }
+    .product-body{padding: 14px}
+    .product-body h4{margin:0 0 6px}
+    .product-body p{margin:0; color: var(--muted); font-size: 13px; line-height:1.5}
+    .product-meta{
+      margin-top: 10px;
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* FAQ */
+    .faq{
+      border:1px solid var(--border);
+      border-radius: var(--radius2);
+      overflow:hidden;
+      background: rgba(255,255,255,.03);
+    }
+    [data-theme="light"] .faq{background: rgba(0,0,0,.03)}
+    .q{
+      padding: 16px 16px;
+      display:flex; justify-content:space-between; align-items:center;
+      gap:12px;
+      cursor:pointer;
+      border-bottom:1px solid var(--border);
+      user-select:none;
+    }
+    .q:last-child{border-bottom:none}
+    .q strong{font-size: 14px}
+    .q span{color: var(--muted); font-size: 12px}
+    .ans{
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .35s var(--ease);
+      background: rgba(255,255,255,.02);
+    }
+    [data-theme="light"] .ans{background: rgba(0,0,0,.02)}
+    .ans p{margin:0; padding: 0 16px 14px; color: var(--muted); line-height:1.6; font-size: 13px}
+    .q.open + .ans{max-height: 180px}
+
+    /* Contact */
+    .form{
+      display:grid; gap:10px;
+      padding: 18px;
+      border:1px solid var(--border);
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.03);
+    }
+    [data-theme="light"] .form{background: rgba(0,0,0,.03)}
+    .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    @media (max-width: 680px){ .row{grid-template-columns: 1fr} }
+    .field{display:grid; gap:6px;}
+    label{font-size: 12px; color: var(--muted)}
+    input, textarea{
+      padding: 12px 12px;
+      border-radius: 14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      outline:none;
+      transition: border-color .25s var(--ease), background .25s var(--ease);
+    }
+    [data-theme="light"] input, [data-theme="light"] textarea{background: rgba(0,0,0,.03)}
+    input:focus, textarea:focus{border-color: rgba(166,255,203,.55)}
+    textarea{min-height: 110px; resize: vertical}
+
+    .toast{
+      position: fixed;
+      bottom: 16px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.62);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.9);
+      padding: 12px 14px;
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+      display:flex; align-items:center; gap:10px;
+      opacity:0; visibility:hidden;
+      transition: opacity .3s var(--ease), visibility .3s var(--ease), transform .3s var(--ease);
+      z-index: 999;
+    }
+    [data-theme="light"] .toast{
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(0,0,0,.10);
+      color: rgba(0,0,0,.84);
+    }
+    .toast.show{opacity:1; visibility:visible; transform: translateX(-50%) translateY(-4px)}
+    .toast .t-dot{width:10px; height:10px; border-radius:99px; background: var(--ok)}
+    .footer{padding: 22px 0 40px; color: var(--muted); font-size: 12px;}
+    .footer-grid{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items:center;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+    @media (max-width: 700px){ .footer-grid{grid-template-columns: 1fr; justify-items:start} }
+
+    /* Modal */
+    .modal{
+      position:fixed; inset:0;
+      display:grid; place-items:center;
+      padding: 18px;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+      z-index: 200;
+      opacity:0; visibility:hidden;
+      transition: opacity .3s var(--ease), visibility .3s var(--ease);
+    }
+    .modal.show{opacity:1; visibility:visible}
+    .modal-card{
+      width:min(720px, 96vw);
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modal-top{
+      display:flex; justify-content:space-between; align-items:center;
+      padding: 14px 16px;
+      border-bottom:1px solid var(--border);
+    }
+    .modal-top strong{letter-spacing:-0.01em}
+    .x{
+      width:38px; height:38px; border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      cursor:pointer;
+    }
+    .x:hover{background: var(--card2)}
+    .modal-body{padding: 16px}
+    .modal-body p{margin: 8px 0 0; color: var(--muted); line-height:1.6}
+    .modal-actions{padding: 0 16px 16px; display:flex; gap:10px; flex-wrap:wrap}
+
+    /* Reveal animations */
+    .reveal{
+      opacity:0;
+      transform: translateY(12px);
+      transition: opacity .6s var(--ease), transform .6s var(--ease);
+    }
+    .reveal.in{opacity:1; transform: translateY(0)}
+  </style>
+</head>
+
+<body data-theme="dark">
+  <!-- LOADING SCREEN -->
+  <div class="loader" id="loader" aria-label="Loading">
+    <div class="loader-card">
+      <div class="shine"></div>
+      <div class="loader-top">
+        <div class="loader-logo">
+          <img src="KOTIYA CO.png" alt="KotIya Origins Logo" />
+        </div>
+        <div class="loader-title">
+          <strong>KOTIYA ORIGINS</strong>
+          <span>Preparing the experience…</span>
+        </div>
+      </div>
+      <div class="progress" aria-hidden="true">
+        <div class="bar" id="bar"></div>
+      </div>
+      <div class="loader-meta">
+        <span id="loaderText">Initializing</span>
+        <span id="loaderPct">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a class="brand" href="#top" aria-label="KotIya Origins Home">
+          <div class="brand-badge">
+            <img src="KOTIYA CO.png" alt="KotIya Origins" />
+          </div>
+          <div class="brand-text">
+            <div class="name">KOTIYA ORIGINS</div>
+            <div class="tag">Sri Lanka • Wildlife Conservation Social Enterprise</div>
+          </div>
+        </a>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#mission">Mission</a>
+          <a href="#impact">Impact</a>
+          <a href="#products">Products</a>
+          <a href="#partners">Partners</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="actions">
+          <button class="btn ghost" id="themeBtn" aria-label="Toggle theme">🌓 Theme</button>
+          <a class="btn primary" href="#products">Explore Products</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="top" class="hero">
+    <div class="wrap">
+      <div class="grid">
+        <div class="card hero-left reveal">
+          <div class="kicker">
+            <span class="pill"><span class="dot"></span> Built to protect Sri Lanka’s wildlife</span>
+            <span class="pill">Eco-friendly products • Profit-funded conservation</span>
+          </div>
+
+          <h1>
+            A brand that helps protect
+            <span style="background:linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent;">leopards, elephants</span>
+            & more.
+          </h1>
+
+          <p class="sub">
+            KotIya Origins is a social enterprise designed to support wildlife conservation in Sri Lanka.
+            We build environmental-friendly products, and a percentage of profits goes into real conservation projects — in collaboration with trusted local partners.
+          </p>
+
+          <div class="hero-cta">
+            <button class="btn primary" id="supportBtn">Support the Mission</button>
+            <a class="btn" href="#impact">See how it works</a>
+            <button class="btn" id="watchBtn">▶ Watch intro (demo)</button>
+          </div>
+
+          <div style="margin-top:16px; color:var(--muted); font-size:12px; line-height:1.6;">
+            *Replace demo links & text anytime. This site is ready for a real shop, donations, and partner pages later.
+          </div>
+        </div>
+
+        <div class="card hero-right reveal">
+          <div class="poster">
+            <div class="poster-inner">
+              <img class="logo-big" src="KOTIYA CO.png" alt="KotIya Origins Logo Large" />
+            </div>
+          </div>
+
+          <div class="mini-stats">
+            <div class="stat">
+              <strong><span data-count="12" class="count">0</span>%</strong>
+              <span>Planned profit contribution (editable)</span>
+            </div>
+            <div class="stat">
+              <strong><span data-count="3" class="count">0</span></strong>
+              <span>Focus species (leopard, elephant, + more)</span>
+            </div>
+            <div class="stat">
+              <strong><span data-count="1" class="count">0</span></strong>
+              <span>Local partnership-first approach</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MISSION -->
+  <section id="mission">
+    <div class="wrap">
+      <div class="section-title reveal">
+        <div>
+          <h2>Mission</h2>
+          <p>Protect wildlife by turning everyday purchases into conservation funding — with transparency and measurable action.</p>
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="feature reveal">
+          <div class="badge"><span class="b">🌿</span> Eco-first products</div>
+          <h3>Environmental-friendly by design</h3>
+          <p>We prioritize packaging, materials, and sourcing that reduce harm — and we keep improving product choices as the brand grows.</p>
+        </div>
+
+        <div class="feature reveal">
+          <div class="badge"><span class="b">🛡️</span> Protection projects</div>
+          <h3>Profit-funded conservation support</h3>
+          <p>A percentage of profits is dedicated to conservation projects, done with credible Sri Lankan partners.</p>
+        </div>
+
+        <div class="feature reveal">
+          <div class="badge"><span class="b">📍</span> Local impact</div>
+          <h3>Sri Lanka, focused</h3>
+          <p>Conservation is most powerful when it’s local. KotIya Origins exists to support Sri Lanka’s wildlife where it matters most.</p>
+        </div>
+
+        <div class="feature reveal">
+          <div class="badge"><span class="b">🔎</span> Transparency</div>
+          <h3>Clear impact reporting</h3>
+          <p>We publish updates on how contributions are used (project summaries, receipts where possible, and verified partner acknowledgements).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACT -->
+  <section id="impact">
+    <div class="wrap">
+      <div class="section-title reveal">
+        <div>
+          <h2>How the model works</h2>
+          <p>A clean loop: customers buy → profits fund projects → impact updates are shared → trust grows → more protection happens.</p>
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="card reveal" style="padding:18px;">
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
+            <span class="pill">Step 01 • Products</span>
+            <span class="pill">Step 02 • Funding</span>
+            <span class="pill">Step 03 • Projects</span>
+            <span class="pill">Step 04 • Reports</span>
+          </div>
+
+          <div style="display:grid; gap:10px;">
+            <div class="feature" style="border-radius:18px;">
+              <h3 style="margin:0 0 6px;">01 — Build products people actually want</h3>
+              <p style="margin:0;">Premium, minimal, eco-friendly goods that carry the story of Sri Lankan wildlife.</p>
+            </div>
+            <div class="feature" style="border-radius:18px;">
+              <h3 style="margin:0 0 6px;">02 — Allocate profit percentage to conservation</h3>
+              <p style="margin:0;">You set the percentage (example: 12%). Update it anytime as the business scales.</p>
+            </div>
+            <div class="feature" style="border-radius:18px;">
+              <h3 style="margin:0 0 6px;">03 — Fund projects with local partners</h3>
+              <p style="margin:0;">Work with organizations like Wildlife Protection Society Sri Lanka (as planned) and other credible groups.</p>
+            </div>
+            <div class="feature" style="border-radius:18px;">
+              <h3 style="margin:0 0 6px;">04 — Publish impact updates</h3>
+              <p style="margin:0;">Short reports, photos, partner statements, and progress goals that build trust.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal" style="padding:18px;">
+          <div class="section-title" style="margin-bottom:10px;">
+            <div>
+              <h2 style="font-size:18px; margin:0;">Impact dashboard</h2>
+              <p style="margin-top:6px;">Demo counters (replace with real numbers later)</p>
+            </div>
+          </div>
+
+          <div class="mini-stats" style="grid-template-columns: 1fr 1fr; margin-bottom:12px;">
+            <div class="stat">
+              <strong><span data-count="150" class="count">0</span>+</strong>
+              <span>Eco products sold</span>
+            </div>
+            <div class="stat">
+              <strong><span data-count="12" class="count">0</span>%</strong>
+              <span>Profit set aside for conservation</span>
+            </div>
+            <div class="stat">
+              <strong><span data-count="6" class="count">0</span></strong>
+              <span>Partner activities funded</span>
+            </div>
+            <div class="stat">
+              <strong><span data-count="3" class="count">0</span></strong>
+              <span>Wildlife focus areas</span>
+            </div>
+          </div>
+
+          <div class="feature" style="border-radius:18px;">
+            <div class="badge"><span class="b">🎯</span> Next milestone</div>
+            <h3 style="margin:0 0 6px;">Launch the first conservation project</h3>
+            <p style="margin:0;">Start with something measurable (ex: awareness campaign, habitat support, community engagement, or partner-led protection work).</p>
+            <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn primary" id="milestoneBtn">Set a public goal</button>
+              <button class="btn" id="reportBtn">Create first impact report</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="wrap">
+      <div class="section-title reveal">
+        <div>
+          <h2>Eco-friendly products</h2>
+          <p>Placeholders you can replace with your real items. Click a card to view details.</p>
+        </div>
+      </div>
+
+      <div class="products">
+        <div class="product reveal" data-product="Eco Bottle" data-desc="A reusable bottle designed to reduce plastic waste. Add your material details, sizes, and pricing later." data-impact="Supports conservation funding per purchase.">
+          <div class="thumb"></div>
+          <div class="product-body">
+            <h4>Eco Bottle</h4>
+            <p>Minimal, reusable, travel-ready.</p>
+            <div class="product-meta">
+              <span>Coming soon</span><span>View details →</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product reveal" data-product="Wildlife Tote" data-desc="A durable tote to replace single-use bags. Add fabric, production, and supplier details later." data-impact="Funds partner projects with a profit percentage.">
+          <div class="thumb"></div>
+          <div class="product-body">
+            <h4>Wildlife Tote</h4>
+            <p>Everyday carry, eco-first.</p>
+            <div class="product-meta">
+              <span>Coming soon</span><span>View details →</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product reveal" data-product="Refill Soap" data-desc="Refillable / low-waste personal care concept. Add ingredient list and eco certification later." data-impact="Designed to reduce waste and support conservation.">
+          <div class="thumb"></div>
+          <div class="product-body">
+            <h4>Refill Soap</h4>
+            <p>Low-waste, clean design.</p>
+            <div class="product-meta">
+              <span>Coming soon</span><span>View details →</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product reveal" data-product="Bamboo Kit" data-desc="An eco kit concept (brushes, straws, etc.). Replace with your final lineup." data-impact="Supports wildlife conservation through social enterprise profits.">
+          <div class="thumb"></div>
+          <div class="product-body">
+            <h4>Bamboo Kit</h4>
+            <p>Simple swaps, big impact.</p>
+            <div class="product-meta">
+              <span>Coming soon</span><span>View details →</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product reveal" data-product="Leopard Tee" data-desc="A premium tee concept with an ethical supply chain. Add your print/embroidery and materials later." data-impact="A portion of profit supports leopard-focused conservation work.">
+          <div class="thumb"></div>
+          <div class="product-body">
+            <h4>Leopard Tee</h4>
+            <p>Clean, premium, purposeful.</p>
+            <div class="product-meta">
+              <span>Coming soon</span><span>View details →</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product reveal" data-product="Impact Membership" data-desc="A monthly support option (optional) that helps fund conservation steadily. Add tiers later." data-impact="Stable recurring funding for partner-led activities.">
+          <div class="thumb"></div>
+          <div class="product-body">
+            <h4>Impact Membership</h4>
+            <p>Monthly support, transparent updates.</p>
+            <div class="product-meta">
+              <span>Coming soon</span><span>View details →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal" style="margin-top:14px; padding:18px;">
+        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between;">
+          <div>
+            <h3 style="margin:0 0 6px;">Get launch updates</h3>
+            <p style="margin:0; color:var(--muted); font-size:13px;">Join the list — be first to know when products go live and when new impact reports drop.</p>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <input id="newsEmail" type="email" placeholder="your@email.com" aria-label="Email address" style="min-width: 240px;" />
+            <button class="btn primary" id="newsBtn">Subscribe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS + FAQ -->
+  <section id="partners">
+    <div class="wrap">
+      <div class="section-title reveal">
+        <div>
+          <h2>Partners & trust</h2>
+          <p>Your plan: collaborate with Wildlife Protection Society Sri Lanka and other credible conservation groups.</p>
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="feature reveal">
+          <div class="badge"><span class="b">🤝</span> Collaboration-first</div>
+          <h3>Work with trusted organizations</h3>
+          <p>Conservation works best with experienced partners. This brand is built to support partner-led projects, not to replace them.</p>
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn" id="partnerBtn">Partner inquiry (demo)</button>
+            <button class="btn primary" id="donateBtn">Donate/Support (demo)</button>
+          </div>
+        </div>
+
+        <div class="faq reveal" aria-label="FAQ">
+          <div class="q"><strong>How does KotIya Origins help wildlife?</strong><span>+</span></div>
+          <div class="ans"><p>By building eco-friendly products and allocating a percentage of profits toward conservation projects with credible Sri Lankan partners.</p></div>
+
+          <div class="q"><strong>Which animals are you focused on?</strong><span>+</span></div>
+          <div class="ans"><p>Leopards, elephants, and other threatened wildlife in Sri Lanka — the focus can expand as partnerships and resources grow.</p></div>
+
+          <div class="q"><strong>Will you publish impact reports?</strong><span>+</span></div>
+          <div class="ans"><p>Yes — you can share updates like project summaries, partner acknowledgements, goals, and progress milestones to build trust.</p></div>
+
+          <div class="q"><strong>Do you run projects directly?</strong><span>+</span></div>
+          <div class="ans"><p>The cleanest approach is partner-led projects. This keeps conservation work credible and helps you scale impact responsibly.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-title reveal">
+        <div>
+          <h2>Contact</h2>
+          <p>Use this form for customer support, collaborations, or conservation partnership inquiries.</p>
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="form reveal">
+          <div class="row">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" placeholder="Your name" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="you@email.com" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="topic">Topic</label>
+            <input id="topic" placeholder="Support / Partnership / Media / Wholesale" />
+          </div>
+          <div class="field">
+            <label for="msg">Message</label>
+            <textarea id="msg" placeholder="Tell us what you need…"></textarea>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;">
+            <button class="btn primary" id="sendBtn">Send message</button>
+            <span style="color:var(--muted); font-size:12px;">Demo form — replace with email/API later.</span>
+          </div>
+        </div>
+
+        <div class="card reveal" style="padding:18px;">
+          <div class="badge"><span class="b">🗺️</span> Based in Sri Lanka</div>
+          <h3 style="margin:0 0 8px;">Build trust with a simple public pledge</h3>
+          <p style="margin:0; color:var(--muted); line-height:1.6;">
+            “KotIya Origins commits to supporting Sri Lankan wildlife conservation by dedicating a percentage of profits to verified, partner-led projects.”
+          </p>
+          <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn" id="copyPledgeBtn">Copy pledge</button>
+            <button class="btn primary" id="scrollTopBtn">Back to top</button>
+          </div>
+
+          <div style="margin-top:14px; border-top:1px solid var(--border); padding-top:14px;">
+            <div class="pill">Tip: Add your socials + store link here when ready</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          © <span id="year"></span> KotIya Origins. Built for conservation and clean design.
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn" href="#mission">Mission</a>
+          <a class="btn" href="#products">Products</a>
+          <a class="btn" href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PRODUCT MODAL -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Product details">
+    <div class="modal-card">
+      <div class="modal-top">
+        <strong id="mTitle">Product</strong>
+        <button class="x" id="mClose" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="mDesc"></p>
+        <p id="mImpact"></p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn primary" id="mNotify">Notify me</button>
+        <button class="btn" id="mShare">Share</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="t-dot"></span>
+    <span id="toastText">Done.</span>
+  </div>
+
+  <script>
+    // Toast
+    const toastEl = document.getElementById("toast");
+    const toastText = document.getElementById("toastText");
+    let toastTimer = null;
+    function toast(msg){
+      toastText.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> toastEl.classList.remove("show"), 2200);
+    }
+
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // --- Loading Screen ---
+    const loader = document.getElementById("loader");
+    const bar = document.getElementById("bar");
+    const loaderPct = document.getElementById("loaderPct");
+    const loaderText = document.getElementById("loaderText");
+
+    const steps = [
+      { t: "Initializing", p: 18 },
+      { t: "Loading UI", p: 42 },
+      { t: "Preparing sections", p: 68 },
+      { t: "Almost ready", p: 92 },
+      { t: "Welcome", p: 100 },
+    ];
+
+    let i = 0;
+    const tick = () => {
+      const s = steps[i];
+      bar.style.width = s.p + "%";
+      loaderPct.textContent = s.p + "%";
+      loaderText.textContent = s.t;
+      i++;
+      if (i < steps.length) setTimeout(tick, 320);
+      else setTimeout(() => loader.classList.add("hidden"), 350);
+    };
+    window.addEventListener("load", () => setTimeout(tick, 200));
+
+    // --- Theme Toggle (persist) ---
+    const themeBtn = document.getElementById("themeBtn");
+    const savedTheme = localStorage.getItem("kotiya_theme");
+    if (savedTheme) document.body.setAttribute("data-theme", savedTheme);
+
+    themeBtn.addEventListener("click", () => {
+      const current = document.body.getAttribute("data-theme") || "dark";
+      const next = current === "dark" ? "light" : "dark";
+      document.body.setAttribute("data-theme", next);
+      localStorage.setItem("kotiya_theme", next);
+      toast(`Theme: ${next}`);
+    });
+
+    // --- Smooth scroll helpers ---
+    document.getElementById("scrollTopBtn").addEventListener("click", () =>
+      window.scrollTo({top:0, behavior:"smooth"})
+    );
+
+    // --- Reveal on scroll ---
+    const reveals = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("in"); });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+
+    // --- Animated counters ---
+    const counters = document.querySelectorAll(".count");
+    const runCounter = (el) => {
+      const target = Number(el.getAttribute("data-count") || "0");
+      const dur = 900;
+      const t0 = performance.now();
+      const frame = (t) => {
+        const k = Math.min(1, (t - t0) / dur);
+        const eased = k * (2 - k); // easeOutQuad
+        el.textContent = Math.floor(target * eased);
+        if (k < 1) requestAnimationFrame(frame);
+        else el.textContent = target;
+      };
+      requestAnimationFrame(frame);
+    };
+    const counterIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !e.target.dataset.done) {
+          e.target.dataset.done = "1";
+          runCounter(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    counters.forEach(c => counterIO.observe(c));
+
+    // --- FAQ accordion ---
+    document.querySelectorAll(".faq .q").forEach(q => {
+      q.addEventListener("click", () => {
+        document.querySelectorAll(".faq .q").forEach(other => {
+          if (other !== q) other.classList.remove("open");
+        });
+        q.classList.toggle("open");
+      });
+    });
+
+    // --- Product modal ---
+    const modal = document.getElementById("modal");
+    const mTitle = document.getElementById("mTitle");
+    const mDesc = document.getElementById("mDesc");
+    const mImpact = document.getElementById("mImpact");
+    const mClose = document.getElementById("mClose");
+
+    function openModal(title, desc, impact){
+      mTitle.textContent = title;
+      mDesc.textContent = desc;
+      mImpact.textContent = "Impact: " + impact;
+      modal.classList.add("show");
+    }
+    function closeModal(){ modal.classList.remove("show"); }
+
+    document.querySelectorAll(".product").forEach(card => {
+      card.addEventListener("click", () => {
+        openModal(
+          card.dataset.product,
+          card.dataset.desc,
+          card.dataset.impact
+        );
+      });
+    });
+
+    mClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+    document.getElementById("mNotify").addEventListener("click", () => {
+      toast("Saved! (demo) Add real email capture later.");
+      closeModal();
+    });
+    document.getElementById("mShare").addEventListener("click", async () => {
+      const shareData = { title: "KotIya Origins", text: "Eco products funding Sri Lankan wildlife conservation.", url: location.href };
+      try{
+        if (navigator.share) await navigator.share(shareData);
+        else {
+          await navigator.clipboard.writeText(location.href);
+          toast("Link copied!");
+        }
+      }catch{
+        toast("Share canceled.");
+      }
+    });
+
+    // --- Buttons / demo actions ---
+    document.getElementById("supportBtn").addEventListener("click", () => toast("Support flow (demo). Add donation link later."));
+    document.getElementById("watchBtn").addEventListener("click", () => toast("Intro video (demo). Add your video link later."));
+    document.getElementById("milestoneBtn").addEventListener("click", () => toast("Goal setting (demo). Add a real goal system later."));
+    document.getElementById("reportBtn").addEventListener("click", () => toast("Impact report (demo). Add a blog/report page later."));
+    document.getElementById("partnerBtn").addEventListener("click", () => toast("Partner inquiry (demo). Connect to email/API later."));
+    document.getElementById("donateBtn").addEventListener("click", () => toast("Donation button (demo). Add Stripe/PayHere link later."));
+
+    // Newsletter
+    document.getElementById("newsBtn").addEventListener("click", async () => {
+      const email = document.getElementById("newsEmail").value.trim();
+      if (!email || !email.includes("@")) return toast("Enter a valid email.");
+      toast("Subscribed (demo). Connect to Mailchimp/Sheet later.");
+      document.getElementById("newsEmail").value = "";
+    });
+
+    // Contact form
+    document.getElementById("sendBtn").addEventListener("click", async () => {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const msg = document.getElementById("msg").value.trim();
+      if (!name || !email.includes("@") || msg.length < 5) return toast("Fill name, valid email, and message.");
+      toast("Message sent (demo). Connect to EmailJS/API later.");
+      document.getElementById("name").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("topic").value = "";
+      document.getElementById("msg").value = "";
+    });
+
+    // Copy pledge
+    document.getElementById("copyPledgeBtn").addEventListener("click", async () => {
+      const pledge = "KotIya Origins commits to supporting Sri Lankan wildlife conservation by dedicating a percentage of profits to verified, partner-led projects.";
+      try{
+        await navigator.clipboard.writeText(pledge);
+        toast("Pledge copied!");
+      }catch{
+        toast("Copy failed.");
+      }
+    });
+  </script>
+</body>
+</html>
